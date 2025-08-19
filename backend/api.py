@@ -4,6 +4,7 @@ from . import crud, schemas, models
 from .database import SessionLocal
 from fastapi import HTTPException
 from typing import List, Optional
+from . import seed
 
 router = APIRouter()
 
@@ -59,3 +60,10 @@ def matricula(payload: dict, db: Session = Depends(get_db)):
     if not aluno_id or not turma_id:
         raise HTTPException(status_code=400, detail="aluno_id e turma_id obrigatórios")
     return crud.matricular(db, aluno_id, turma_id)
+
+
+
+@router.post("/seed")
+def run_seed():
+    seed.run_seed()
+    return {"ok": True, "msg": "Seed executada"}
