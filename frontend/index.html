@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gestão Escolar</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <header class="header">
+      <h1>Gestão Escolar</h1>
+      <input id="search" placeholder="Buscar aluno..." aria-label="Buscar aluno">
+    </header>
+
+    <main class="grid">
+      <aside class="sidebar">
+        <section>
+          <h2>Filtros</h2>
+          <select id="filter-turma" aria-label="Filtro por turma">
+            <option value="">Todas as turmas</option>
+          </select>
+          <select id="filter-status" aria-label="Filtro por status">
+            <option value="">Todos</option>
+            <option value="ativo">Ativo</option>
+            <option value="inativo">Inativo</option>
+          </select>
+          <button id="btn-new-aluno">Novo aluno</button>
+        </section>
+        <section>
+          <h3>Indicadores</h3>
+          <div id="indicadores"></div>
+        </section>
+      </aside>
+
+      <section class="content">
+        <div class="controls">
+          <label for="sort">Ordenar:</label>
+          <select id="sort">
+            <option value="nome">Nome</option>
+            <option value="idade">Idade</option>
+          </select>
+          <button id="export-csv">Exportar CSV</button>
+        </div>
+
+        <table id="alunos-table">
+          <caption>Lista de Alunos</caption>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Data Nasc.</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Turma</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </main>
+
+    <dialog id="modal-aluno">
+      <form method="dialog">
+        <h2>Novo Aluno</h2>
+        <label>Nome <input id="aluno-nome" required minlength="3" maxlength="80"></label>
+        <label>Data Nasc <input id="aluno-data" type="date" required></label>
+        <label>Email <input id="aluno-email" type="email"></label>
+        <label>Status
+          <select id="aluno-status" required>
+            <option value="ativo">Ativo</option>
+            <option value="inativo">Inativo</option>
+          </select>
+        </label>
+        <label>Turma
+          <select id="aluno-turma"><option value="">Nenhuma</option></select>
+        </label>
+        <menu>
+          <button id="save-aluno">Salvar</button>
+          <button id="close-aluno">Fechar</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <script src="js/main.js" type="module"></script>
+  </body>
+</html>

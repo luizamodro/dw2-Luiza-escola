@@ -1,0 +1,22 @@
+:root{
+  --primaria: #2563EB;
+  --secundaria: #10B981;
+  --acento: #F97316;
+  --fundo: #F1F5F9;
+  --texto: #0B1220;
+  --font-sans: Inter, Roboto, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial;
+}
+
+*{box-sizing:border-box}
+body{font-family:var(--font-sans);background:var(--fundo);color:var(--texto);margin:0;padding:0}
+.header{display:flex;align-items:center;gap:1rem;padding:1rem;background:var(--primaria);color:white}
+.header input{margin-left:auto;padding:.5rem;border-radius:6px;border:none}
+.grid{display:grid;grid-template-columns:260px 1fr;gap:1rem;padding:1rem}
+.sidebar{background:white;padding:1rem;border-radius:8px}
+.content{background:white;padding:1rem;border-radius:8px}
+.controls{display:flex;gap:.5rem;align-items:center;margin-bottom:1rem}
+table{width:100%;border-collapse:collapse}
+th,td{padding:.5rem;border-bottom:1px solid #e6e6e6;text-align:left}
+button{background:var(--secundaria);color:white;border:none;padding:.5rem 1rem;border-radius:6px;cursor:pointer}
+#modal-aluno form{display:flex;flex-direction:column;gap:.5rem}
+#modal-aluno input,#modal-aluno select{padding:.4rem;border:1px solid #ddd;border-radius:4px}
