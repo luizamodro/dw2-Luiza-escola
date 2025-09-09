@@ -53,6 +53,7 @@ async function refreshList(){
   ALUNOS = alunos;
   sortAndRender();
   updateIndicators();
+  populateNames();
 }
 
 function sortAndRender(){
@@ -69,6 +70,8 @@ function renderTable(alunos){
   tbody.innerHTML = '';
   alunos.forEach(a => {
     const tr = document.createElement('tr');
+    tr.setAttribute('tabindex', '0');
+    tr.setAttribute('role', 'row');
     const turma = TURMAS.find(t=>t.id===a.turma_id);
     tr.innerHTML = `
       <td>${escapeHtml(a.nome)}</td>
@@ -82,8 +85,23 @@ function renderTable(alunos){
         <button type="button" data-id="${a.id}" class="btn-matricular">Matricular</button>
       </td>
     `;
+    // abrir modal ao duplo clique na linha
+    tr.addEventListener('dblclick', ()=> openAlunoModal(a));
+    // permitir Enter abrir quando a linha estiver focada
+    tr.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') openAlunoModal(a); });
     tbody.appendChild(tr);
   })
+}
+
+function populateNames(){
+  const dl = document.querySelector('#names-list');
+  if(!dl) return;
+  dl.innerHTML = '';
+  ALUNOS.forEach(a => {
+    const opt = document.createElement('option');
+    opt.value = a.nome;
+    dl.appendChild(opt);
+  });
 }
 
 function escapeHtml(s){
