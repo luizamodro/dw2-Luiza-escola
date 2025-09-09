@@ -16,12 +16,23 @@ async function fetchTurmas(){
   const sel1 = document.querySelector('#filter-turma');
   const sel2 = document.querySelector('#aluno-turma');
   sel1.innerHTML = '<option value="">Todas as turmas</option>';
-  sel2.innerHTML = '<option value="">Nenhuma</option>';
+  // sel2 is now an input; keep placeholder handled in HTML
   data.forEach(t => {
     const o = document.createElement('option'); o.value = t.id; o.textContent = `${t.nome} (cap ${t.capacidade})`;
     sel1.appendChild(o);
-    const o2 = o.cloneNode(true);
-    sel2.appendChild(o2);
+  });
+  populateTurmasDatalist();
+}
+
+function populateTurmasDatalist(){
+  const dl = document.querySelector('#turmas-list');
+  if(!dl) return;
+  dl.innerHTML = '';
+  TURMAS.forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t.id; // store id as value; label shown separately in select
+    opt.textContent = t.nome;
+    dl.appendChild(opt);
   });
 }
 
@@ -150,11 +161,27 @@ function openAlunoModal(aluno){
   document.querySelector('#aluno-data').value = aluno?.data_nascimento||'';
   document.querySelector('#aluno-email').value = aluno?.email||'';
   document.querySelector('#aluno-status').value = aluno?.status||'inativo';
-  document.querySelector('#aluno-turma').value = aluno?.turma_id||'';
+  // if turma_id present, try to find turma name
+  if(aluno?.turma_id){
+    const t = TURMAS.find(x=>x.id===aluno.turma_id);
+    document.querySelector('#aluno-turma').value = t? t.id : '';
+  } else {
+    document.querySelector('#aluno-turma').value = '';
+  }
   dlg.dataset.editId = aluno?.id || '';
   dlg.showModal();
   document.querySelector('#aluno-nome').focus();
 }
+
+// fechar modal com Esc e restaurar foco
+let lastFocused = null;
+document.addEventListener('focusin', (e)=>{ lastFocused = e.target; });
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape'){
+    const dlg = document.querySelector('#modal-aluno');
+    if(dlg && dlg.open){ dlg.close(); if(lastFocused) lastFocused.focus(); }
+  }
+});
 
 function closeAlunoModal(){
   const dlg = document.querySelector('#modal-aluno');

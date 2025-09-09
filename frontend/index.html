@@ -74,7 +74,8 @@
           </select>
         </label>
         <label>Turma
-          <select id="aluno-turma"><option value="">Nenhuma</option></select>
+          <input id="aluno-turma" list="turmas-list" placeholder="Escolha a turma" aria-label="Turma">
+          <datalist id="turmas-list"></datalist>
         </label>
         <menu>
           <button id="save-aluno" type="button">Salvar</button>
