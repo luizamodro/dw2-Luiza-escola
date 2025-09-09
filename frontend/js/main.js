@@ -36,6 +36,30 @@ function populateTurmasDatalist(){
   });
 }
 
+function populateFilterTurmas(){
+  const dl = document.querySelector('#filter-turmas-list');
+  const sel = document.querySelector('#filter-turma');
+  const input = document.querySelector('#filter-turma-input');
+  if(!dl || !sel || !input) return;
+  dl.innerHTML = '';
+  // clear existing options except default
+  sel.querySelectorAll('option:not([value=""])').forEach(o=>o.remove());
+  TURMAS.forEach(t => {
+    const opt = document.createElement('option'); opt.value = t.id; opt.textContent = t.nome;
+    sel.appendChild(opt.cloneNode(true));
+    const dopt = document.createElement('option'); dopt.value = t.id; dopt.textContent = t.nome; dl.appendChild(dopt);
+  });
+
+  // when user selects via input, update the select value
+  input.addEventListener('input', ()=>{
+    const val = input.value;
+    // try find matching turma by name
+    const found = TURMAS.find(t=> t.nome === val || `${t.nome} (cap ${t.capacidade})` === val);
+    if(found) sel.value = found.id; else if(val==='') sel.value='';
+    refreshList();
+  });
+}
+
 async function fetchAlunos(params = {}){
   const qsStr = qs(params);
   const res = await fetch(`/alunos?${qsStr}`);
@@ -65,6 +89,7 @@ async function refreshList(){
   sortAndRender();
   updateIndicators();
   populateNames();
+  populateFilterTurmas();
 }
 
 function sortAndRender(){
