@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-      <header class="header">
+    <header class="header">
       <h1>Gestão Escolar</h1>
       <input id="search" list="names-list" placeholder="Buscar aluno..." aria-label="Buscar aluno" tabindex="0">
       <datalist id="names-list"></datalist>
@@ -64,8 +64,8 @@
     </main>
 
     <dialog id="modal-aluno" aria-modal="true">
-      <form method="dialog" aria-label="Formulário de aluno" onsubmit="return false;">
-        <h2>Novo Aluno</h2>
+      <form aria-label="Formulário de aluno" onsubmit="return false;">
+        <h2 id="modal-title">Novo Aluno</h2>
         <label>Nome <input id="aluno-nome" required minlength="3" maxlength="80" aria-required="true"></label>
         <label>Data Nasc <input id="aluno-data" type="date" required aria-required="true"></label>
         <label>Email <input id="aluno-email" type="email"></label>

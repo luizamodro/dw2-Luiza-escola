@@ -1,31 +1,21 @@
-from pydantic import BaseModel, EmailStr, Field
-from typing import Optional
+from pydantic import BaseModel
 from datetime import date
+from typing import Optional
 
 
-class TurmaCreate(BaseModel):
-    nome: str = Field(..., min_length=1, max_length=80)
-    capacidade: int = Field(..., ge=1)
-
-
-class TurmaOut(BaseModel):
-    id: int
-    nome: str
-    capacidade: int
-
-    class Config:
-        orm_mode = True
-
-
+# --- Alunos ---
 class AlunoBase(BaseModel):
-    nome: str = Field(..., min_length=3, max_length=80)
+    nome: str
     data_nascimento: date
-    email: Optional[EmailStr] = None
-    status: str = Field(...)
+    status: str = "ativo"
     turma_id: Optional[int] = None
 
 
 class AlunoCreate(AlunoBase):
+    pass
+
+
+class AlunoUpdate(AlunoBase):
     pass
 
 
@@ -34,3 +24,25 @@ class AlunoOut(AlunoBase):
 
     class Config:
         orm_mode = True
+
+
+# --- Turmas ---
+class TurmaBase(BaseModel):
+    nome: str
+
+
+class TurmaCreate(TurmaBase):
+    pass
+
+
+class TurmaOut(TurmaBase):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+
+# --- Matrícula ---
+class MatriculaIn(BaseModel):
+    aluno_id: int
+    turma_id: int
