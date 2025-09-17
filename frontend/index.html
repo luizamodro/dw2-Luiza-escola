@@ -1,93 +1,129 @@
 <!doctype html>
 <html lang="pt-BR">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Gestão Escolar</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gestão Escolar — Nova Versão</title>
+    <link rel="stylesheet" href="css/style.css" />
   </head>
+
   <body>
-    <header class="header">
-      <h1>Gestão Escolar</h1>
-      <input id="search" list="names-list" placeholder="Buscar aluno..." aria-label="Buscar aluno" tabindex="0">
-      <datalist id="names-list"></datalist>
+    <header class="nav">
+      <div class="nav-left">
+        <h1>Gestão Escolar</h1>
+      </div>
+      <div class="nav-right">
+        <input id="search" placeholder="Buscar aluno..." aria-label="Buscar aluno" />
+      </div>
     </header>
 
-    <main class="grid">
-      <aside class="sidebar">
-        <section>
-          <h2>Filtros</h2>
-          <input id="filter-turma-input" list="filter-turmas-list" placeholder="Buscar/selecionar turma" aria-label="Buscar turma" tabindex="0">
-          <datalist id="filter-turmas-list"></datalist>
-          <select id="filter-turma" aria-label="Filtro por turma" tabindex="0">
+    <div class="container">
+      <aside class="panel">
+        <h2>Filtros</h2>
+        <div class="field">
+          <label for="filter-turma">Turma</label>
+          <select id="filter-turma">
             <option value="">Todas as turmas</option>
           </select>
-          <select id="filter-status" aria-label="Filtro por status" tabindex="0">
+        </div>
+        
+        <div class="field">
+          <label for="filter-status">Status</label>
+          <select id="filter-status">
             <option value="">Todos</option>
             <option value="ativo">Ativo</option>
             <option value="inativo">Inativo</option>
           </select>
-          <button id="btn-new-aluno" type="button">Novo aluno</button>
-        </section>
-        <section>
-          <h3>Indicadores</h3>
-          <div id="indicadores" aria-live="polite"></div>
-        </section>
-      </aside>
-
-      <section class="content">
-        <div class="controls">
-          <label for="sort">Ordenar:</label>
-          <select id="sort" aria-label="Ordenar" tabindex="0">
-            <option value="nome">Nome</option>
-            <option value="idade">Idade</option>
-          </select>
-          <button id="export-csv" type="button">Exportar CSV</button>
-          <button id="export-json" type="button">Exportar JSON</button>
         </div>
 
-        <table id="alunos-table">
-          <caption>Lista de Alunos</caption>
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Data Nascimento</th>
-              <th>Email</th>
-              <th>Status</th>
-              <th>Turma</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </section>
-    </main>
+        <div class="actions">
+          <button id="btn-new-aluno" class="btn primary">Novo aluno</button>
+        </div>
 
-    <dialog id="modal-aluno" aria-modal="true">
-      <form aria-label="Formulário de aluno" onsubmit="return false;">
-        <h2 id="modal-title">Novo Aluno</h2>
-        <label>Nome <input id="aluno-nome" required minlength="3" maxlength="80" aria-required="true"></label>
-        <label>Data Nasc <input id="aluno-data" type="date" required aria-required="true"></label>
-        <label>Email <input id="aluno-email" type="email"></label>
-        <label>Status
-          <select id="aluno-status" required>
-            <option value="ativo">Ativo</option>
-            <option value="inativo">Inativo</option>
-          </select>
-        </label>
-        <label>Turma
-          <input id="aluno-turma" list="turmas-list" placeholder="Escolha a turma" aria-label="Turma">
-          <datalist id="turmas-list"></datalist>
-        </label>
-        <menu>
-          <button id="save-aluno" type="button">Salvar</button>
-          <button id="close-aluno" type="button">Fechar</button>
-        </menu>
-      </form>
-    </dialog>
+        <h3>Indicadores</h3>
+        <div id="indicadores" class="indicadores"></div>
+      </aside>
+
+      <main class="main">
+        <div class="toolbar">
+          <div class="left">
+            <label for="sort">Ordenar</label>
+            <select id="sort">
+              <option value="nome">Nome</option>
+              <option value="idade">Idade</option>
+            </select>
+          </div>
+          <div class="right">
+            <button id="export-csv" class="btn">Exportar CSV</button>
+            <button id="export-json" class="btn">Exportar JSON</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table id="alunos-table">
+            <caption class="sr-only">Lista de Alunos</caption>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Data Nasc</th>
+                <th>Idade</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Turma</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+
+    <!-- Modal implementado como div simples (compatível em todos os navegadores) -->
+    <div id="modal-aluno" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-content" role="document">
+        <form id="form-aluno" onsubmit="return false;">
+          <h2 id="modal-title">Novo Aluno</h2>
+          <div class="form-row">
+            <label>Nome <input id="aluno-nome" required minlength="3" maxlength="80" /></label>
+          </div>
+          <div class="form-row">
+            <label>Data Nasc <input id="aluno-data" type="date" required /></label>
+          </div>
+          <div class="form-row">
+            <label>Email <input id="aluno-email" type="email" /></label>
+          </div>
+          <div class="form-row">
+            <label>Status
+              <select id="aluno-status" required>
+                <option value="ativo">Ativo</option>
+                <option value="inativo">Inativo</option>
+              </select>
+            </label>
+          </div>
+          <div class="form-row">
+            <label>Turma
+              <input id="aluno-turma" list="turmas-list" placeholder="Digite ou selecione a turma" />
+              <datalist id="turmas-list"></datalist>
+            </label>
+            <label style="margin-left:12px">Nível
+              <select id="aluno-turma-nivel">
+                <option value="Fundamental">Fundamental</option>
+                <option value="Ensino Médio">Ensino Médio</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="modal-actions">
+            <button id="save-aluno" class="btn primary" type="button">Salvar</button>
+            <button id="close-aluno" class="btn" type="button">Fechar</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
     <div id="status-msg" class="sr-only" aria-live="polite"></div>
 
-    <script src="js/main.js" type="module"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
